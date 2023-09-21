@@ -20,13 +20,13 @@ spec:
                 - name: ELASTIC_URL
                   value: http://{{ .Release.Name }}-elastic:9200
                 - name: S3_KEY
-                  value: bceQagnOs+UrofgqveOk3oV3IVjxKYUAMSxhtG/s
+                  value: {{ .Values.oidc.data_import.key }}
                 - name: S3_KEYID
-                  value: 26c0e792794c0586638e
+                  value: {{ .Values.oidc.data_import.keyid }}
                 - name: S3_HOST
-                  value: de-2.s3.psmanaged.com
+                  value: {{ .Values.oidc.data_import.host }}
                 - name: S3_BUCKET
-                  value: preview-data
+                  value: {{ .Values.oidc.data_import.bucket }}
               command: [ "/bin/sh","-c" ]
               args: [ "s3cmd get s3://${S3_BUCKET}/final.jsonl --host=${S3_HOST} --access_key=${S3_KEYID} --secret_key=${S3_KEY} --host-bucket=${S3_BUCKET}.${S3_HOST}; python3 /project/import_elastic.py ${ELASTIC_URL} ${ELASTIC_INDEX} ./final.jsonl" ]
           restartPolicy: Never

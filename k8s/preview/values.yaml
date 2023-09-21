@@ -4,11 +4,16 @@ ingress:
   certIssuer: letsencrypt-prod
 oidc:
   frontend:
-    clientid: test
-    authority: https://sso.studyhub.nfdi4health.de/auth
-    realm: test
+    clientid:
+    authority:
+    realm:
   backend:
-    elasticindex: hub1
+    elasticindex:
+  data_import:
+    key:
+    keyid:
+    host:
+    bucket:
 images:
   backend: gitlab.zbmed.de:5050/km/project_preview/textminingvisualizer/backend:latest
   frontend: gitlab.zbmed.de:5050/km/project_preview/textminingvisualizer/frontend:latest
