@@ -6,7 +6,7 @@ metadata:
     "helm.sh/hook": post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
-  schedule: "00 10 * * *"
+  schedule: "0 10 * * *"
   jobTemplate:
     spec:
       template:
