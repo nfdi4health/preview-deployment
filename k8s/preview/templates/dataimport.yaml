@@ -2,11 +2,9 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-backend-data-import
-  annotations:
-    "helm.sh/hook": post-upgrade
-    "helm.sh/hook-delete-policy": hook-succeeded
 spec:
   schedule: "0 8 * * *"
+  successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
       template:
@@ -37,3 +35,5 @@ spec:
               args: [ "s3cmd get s3://${S3_BUCKET}/final.jsonl --host=${S3_HOST} --access_key=${S3_KEYID} --secret_key=${S3_KEY} --host-bucket=${S3_BUCKET}.${S3_HOST}; python3 /project/import_elastic.py ${ELASTIC_URL} ${ELASTIC_INDEX} ./final.jsonl" ]
           restartPolicy: Never
       backoffLimit: 4
+
+
