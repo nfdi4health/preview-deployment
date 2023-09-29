@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-backend-data-import
 spec:
-  schedule: "0 10 * * *"
+  schedule: "0 8 * * *"
   jobTemplate:
     spec:
       template:
@@ -19,10 +19,12 @@ spec:
                 - name: S3_KEY
                   valueFrom:
                     secretKeyRef:
+                      name: preview-s3-key
                       key: preview-s3-key
                 - name: S3_KEYID
                   valueFrom:
                     secretKeyRef:
+                      name: preview-s3-keyid
                       key: preview-s3-keyid
                 - name: S3_HOST
                   value: {{ .Values.oidc.data_import.host }}
