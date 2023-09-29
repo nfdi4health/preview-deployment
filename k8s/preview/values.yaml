@@ -10,8 +10,6 @@ oidc:
   backend:
     elasticindex:
   data_import:
-    key:
-    keyid:
     host:
     bucket:
 images:

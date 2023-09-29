@@ -2,9 +2,6 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: {{ .Release.Name }}-backend-data-import
-  annotations:
-    "helm.sh/hook": post-upgrade
-    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   schedule: "0 10 * * *"
   jobTemplate:
@@ -20,9 +17,13 @@ spec:
                 - name: ELASTIC_URL
                   value: http://{{ .Release.Name }}-elastic:9200
                 - name: S3_KEY
-                  value: {{ .Values.oidc.data_import.key }}
+                  valueFrom:
+                    secretKeyRef:
+                      key: preview-s3-key
                 - name: S3_KEYID
-                  value: {{ .Values.oidc.data_import.keyid }}
+                  valueFrom:
+                    secretKeyRef:
+                      key: preview-s3-keyid
                 - name: S3_HOST
                   value: {{ .Values.oidc.data_import.host }}
                 - name: S3_BUCKET
