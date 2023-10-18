@@ -13,5 +13,5 @@ oidc:
     host:
     bucket:
 images:
-  backend: gitlab.zbmed.de:5050/km/project_preview/textminingvisualizer/backend:latest
-  frontend: gitlab.zbmed.de:5050/km/project_preview/textminingvisualizer/frontend:latest
+  backend: ghcr.io/nfdi4health/preview/backend:latest
+  frontend: ghcr.io/nfdi4health/preview/frontend:latest

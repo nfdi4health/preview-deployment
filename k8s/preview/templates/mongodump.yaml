@@ -1,0 +1,55 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-mongodb-backup
+spec:
+  schedule: "0 0 * * 1"
+  successfulJobsHistoryLimit: 0
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - image: {{ .Values.images.backend }}
+              name: db-backup
+              env:
+                - name: ELASTIC_INDEX
+                  value: {{ .Values.oidc.backend.elasticindex }}
+                - name: ELASTIC_URL
+                  value: http://{{ .Release.Name }}-elastic:9200
+                - name: S3_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: preview-s3-key
+                      key: preview-s3-key
+                - name: S3_KEYID
+                  valueFrom:
+                    secretKeyRef:
+                      name: preview-s3-keyid
+                      key: preview-s3-keyid
+                - name: S3_HOST
+                  value: {{ .Values.oidc.data_import.host }}
+                - name: S3_BUCKET
+                  value: {{ .Values.oidc.data_import.bucket }}
+                - name: MONGO_HOST
+                  value: "{{ .Release.Name }}-mongo"
+                - name: MONGO_PORT
+                  value: "27017"
+                - name: MONGO_USERNAME
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Release.Name }}-mongo-secret
+                      key: username
+                      optional: false
+                - name: MONGO_PASSWORD
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Release.Name }}-mongo-secret
+                      key: password
+                      optional: false
+              command: [ "/bin/sh","-c" ]
+              args: [ "mongodump --host=$MONGO_HOST --username=$MONGO_USERNAME --password=$MONGO_PASSWORD --gzip --archive=mongodbdump$(date +%Y-%m-%d).archive.gz; s3cmd --host=${S3_HOST} --access_key=${S3_KEYID} --secret_key=${S3_KEY} --host-bucket=${S3_BUCKET}.${S3_HOST} put mongodbdump$(date +%Y-%m-%d).archive.gz s3://${S3_BUCKET}/mongodbdump$(date +%Y-%m-%d).archive.gz" ]
+          restartPolicy: Never
+      backoffLimit: 4
+
+
