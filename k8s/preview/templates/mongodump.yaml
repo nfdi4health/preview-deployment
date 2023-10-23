@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-mongodb-backup
 spec:
-  schedule: "0 0 * * 1"
+  schedule: "0 8 * * 2"
   successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
