@@ -33,9 +33,6 @@ spec:
                 value: {{ .Values.oidc.data_import.bucket }}
             command: [ "/bin/sh","-c" ]
             args: [ "s3cmd get s3://${S3_BUCKET}/final.jsonl --host=${S3_HOST} --access_key=${S3_KEYID} --secret_key=${S3_KEY} --host-bucket=${S3_BUCKET}.${S3_HOST}; python3 /project/import_elastic.py ${ELASTIC_URL} ${ELASTIC_INDEX} final.jsonl" ]
-            resources:
-              limits:
-                - memory: 25Gi
           restartPolicy: Never
           imagePullSecrets:
             - name: preview-dockerconfigjson-github-com
