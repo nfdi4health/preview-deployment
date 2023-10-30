@@ -3,6 +3,16 @@ entries:
   preview:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2023-10-30T14:37:47.343092217Z"
+    description: A Helm chart to deploy preview.
+    digest: 374a9f4ce34460ab1b59b53d988ceb74f896b9dae8a7b6b69425cc1ec29d4794
+    name: preview
+    type: application
+    urls:
+    - https://github.com/nfdi4health/preview-deployment/releases/download/preview-0.1.7/preview-0.1.7.tgz
+    version: 0.1.7
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2023-10-30T14:07:49.403703356Z"
     description: A Helm chart to deploy preview.
     digest: 438bd536c48c6f9231cdd16c6723aa61ae9e6f39d5f744ffd346cee81c617321
@@ -151,4 +161,4 @@ entries:
     urls:
     - https://github.com/nfdi4health/preview-deployment/releases/download/preview-0.0.3/preview-0.0.3.tgz
     version: 0.0.3
-generated: "2023-10-30T14:07:49.403855462Z"
+generated: "2023-10-30T14:37:47.343297825Z"
