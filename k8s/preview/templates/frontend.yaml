@@ -14,20 +14,6 @@ spec:
       containers:
       - name: frontend
         image: {{ .Values.images.frontend }}
-        resources:
-          limits:
-            memory: 500Mi
-          requests:
-            memory: 100Mi
-        env:
-          - name: API_PASS
-            value: http://{{ .Release.Name }}-backend:5000
-          - name: KEYCLOAK_URL
-            value: {{ .Values.oidc.frontend.authority }}
-          - name: KEYCLOAK_CLIENTID
-            value: {{ .Values.oidc.frontend.clientid }}
-          - name: KEYCLOAK_REALM
-            value: {{ .Values.oidc.frontend.realm }}
         ports:
           - containerPort: 80
 ---

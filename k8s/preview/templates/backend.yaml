@@ -14,11 +14,6 @@ spec:
       containers:
       - image: {{ .Values.images.backend }}
         name: backend
-        resources:
-          limits:
-            memory: 1000Mi
-          requests:
-            memory: 100Mi
         env:
           - name: MONGO_HOST
             value: "{{ .Release.Name }}-mongo"

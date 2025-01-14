@@ -3,10 +3,6 @@ ingress:
   enableSSL:
   certIssuer:
 oidc:
-  frontend:
-    clientid:
-    authority:
-    realm:
   backend:
     elasticindex:
   data_import:

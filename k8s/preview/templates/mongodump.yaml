@@ -48,7 +48,7 @@ spec:
                       key: password
                       optional: false
               command: [ "/bin/sh","-c" ]
-              args: [ "mongodump --host=$MONGO_HOST --username=$MONGO_USERNAME --password=$MONGO_PASSWORD --authenticationDatabase=admin --db=feedback --gzip --archive=mongodbdump$(date +%Y-%m-%d).archive.gz; s3cmd --host=${S3_HOST} --access_key=${S3_KEYID} --secret_key=${S3_KEY} --host-bucket=${S3_BUCKET}.${S3_HOST} put mongodbdump$(date +%Y-%m-%d).archive.gz s3://${S3_BUCKET}/mongodbdump$(date +%Y-%m-%d).archive.gz" ]
+              args: [ "mongodump --host=$MONGO_HOST --username=$MONGO_USERNAME --password=$MONGO_PASSWORD --authenticationDatabase=admin --gzip --archive=mongodbdump$(date +%Y-%m-%d).archive.gz; s3cmd --host=${S3_HOST} --access_key=${S3_KEYID} --secret_key=${S3_KEY} --host-bucket=${S3_BUCKET}.${S3_HOST} put mongodbdump$(date +%Y-%m-%d).archive.gz s3://${S3_BUCKET}/mongodbdump$(date +%Y-%m-%d).archive.gz" ]
           restartPolicy: Never
       backoffLimit: 4
 
