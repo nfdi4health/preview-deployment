@@ -16,6 +16,9 @@ spec:
         image: {{ .Values.images.frontend }}
         ports:
           - containerPort: 80
+        env:
+          - name: API_PASS
+            value: http://{{ .Release.Name }}-backend:5000
 ---
 apiVersion: v1
 kind: Service
