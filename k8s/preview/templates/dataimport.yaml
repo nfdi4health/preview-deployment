@@ -3,7 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-backend-data-import
 spec:
-  schedule: "0 8 * * *"
+  schedule: "0 0 * * *"
   successfulJobsHistoryLimit: 0
   jobTemplate:
     spec:
