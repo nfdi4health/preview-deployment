@@ -16,6 +16,8 @@ spec:
         app.kubernetes.io/component: backend
         app.kubernetes.io/managed-by: Helm
     spec:
+      imagePullSecrets:
+        - name: regcred
       containers:
       - image: {{ .Values.images.backend }}
         name: backend
