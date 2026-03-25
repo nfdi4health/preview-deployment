@@ -10,6 +10,11 @@ spec:
     metadata:
       labels:
         name: {{ .Release.Name }}-backend
+        project: nfdi4health
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/part-of: preview
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/managed-by: Helm
     spec:
       containers:
       - image: {{ .Values.images.backend }}

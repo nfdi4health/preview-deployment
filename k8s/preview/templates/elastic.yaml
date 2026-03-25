@@ -11,6 +11,11 @@ spec:
     metadata:
       labels:
         name: {{ .Release.Name }}-elastic
+        project: nfdi4health
+        app.kubernetes.io/instance: {{ .Release.Name }}
+        app.kubernetes.io/part-of: preview
+        app.kubernetes.io/component: backend
+        app.kubernetes.io/managed-by: Helm
     spec:
       containers:
           - name: elasticsearch
