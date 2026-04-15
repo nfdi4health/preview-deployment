@@ -1,12 +1,11 @@
 apiVersion: batch/v1
 kind: CronJob
 metadata:
-  name: {{ .Release.Name }}-backend-data-import
+  name: {{ .Release.Name }}-add-pub-status
 spec:
-  schedule: "0 0 * * *"
-  successfulJobsHistoryLimit: 1
-  failedJobsHistoryLimit: 1
-  concurrencyPolicy: Forbid
+  schedule: "30 6 * * 2" # runs on Mondays (sec day of the week)
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 5
   jobTemplate:
     spec:
       template:
@@ -15,17 +14,13 @@ spec:
             project: nfdi4health
             app.kubernetes.io/instance: {{ .Release.Name }}
             app.kubernetes.io/part-of: preview
-            app.kubernetes.io/component: backend
+            app.kubernetes.io/component: simple-pipeline
             app.kubernetes.io/managed-by: Helm
         spec:
           containers:
-          - image: {{ .Values.images.backend }}
-            name: backend-download-data
+          - image: {{ .Values.images.simplePipeline }}
+            name: preview-simple-pipeline
             env:
-              - name: ELASTIC_INDEX
-                value: {{ .Values.oidc.backend.elasticindex }}
-              - name: ELASTIC_URL
-                value: http://{{ .Release.Name }}-elastic:9200
               - name: S3_KEY
                 valueFrom:
                   secretKeyRef:
@@ -43,19 +38,43 @@ spec:
             command: [ "/bin/sh","-c" ]
             args:
               - |
-                file=final.jsonl
+                file=/app/final.jsonl
+
                 echo "Downloading input file from S3"
-                s3cmd get "s3://${S3_BUCKET}/final.jsonl" "$file" \
+                s3cmd get "s3://${S3_BUCKET}/final-test.jsonl" "$file" \
                 --host="${S3_HOST}" \
                 --access_key="${S3_KEYID}" \
                 --secret_key="${S3_KEY}" \
                 --host-bucket="%(bucket)s.${S3_HOST}"
 
                 if [ -e "$file" ]; then
+                  echo "Download successful, running script..."
+                else
+                  echo "Download failed: file does not exist"
+                  exit 1
+                fi
+
+                echo "Checking input file..."
+                if [ -e "$file" ]; then
                   echo "File exists"
-                  echo "Importing..."
-                  python3 /project/import_elastic.py ${ELASTIC_URL} ${ELASTIC_INDEX} final.jsonl
-                  echo "Import done"
+                  echo "Adding publication status..."
+                  python -u /app/add_publication_status.py
+                  echo "Done"
+                else
+                  echo "File does not exist"
+                  exit 1
+                fi
+
+                echo "Script finished, checking output"
+                if [ -e "$file" ]; then
+                  echo "File exists"
+                  echo "Uploading to S3"
+                  s3cmd put "$file" "s3://${S3_BUCKET}/final-test.jsonl" \
+                  --host="${S3_HOST}" \
+                  --access_key="${S3_KEYID}" \
+                  --secret_key="${S3_KEY}" \
+                  --host-bucket="%(bucket)s.${S3_HOST}"
+                  echo "Upload done"
                 else
                   echo "File does not exist"
                   exit 1
@@ -64,12 +83,9 @@ spec:
               requests:
                 memory: 4000Mi
                 cpu: 8m
-              limits:
-                memory: 5000Mi
           restartPolicy: Never
           imagePullSecrets:
             - name: regcred
-      backoffLimit: 1
-      activeDeadlineSeconds: 3600
+      backoffLimit: 4
 
 

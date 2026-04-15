@@ -17,6 +17,12 @@ spec:
         app.kubernetes.io/component: backend
         app.kubernetes.io/managed-by: Helm
     spec:
+      resources:
+        requests:
+          memory: 512Mi
+          cpu: 0.5m
+        limits:
+          memory: 1000Mi
       containers:
           - name: elasticsearch
             image: elasticsearch:7.9.3

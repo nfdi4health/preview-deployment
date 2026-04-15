@@ -17,6 +17,10 @@ spec:
         app.kubernetes.io/component: db
         app.kubernetes.io/managed-by: Helm
     spec:
+      resources:
+        requests:
+          memory: 64Mi
+          cpu: 0.5Mi
       containers:
         - name: mongo
           image: mongo

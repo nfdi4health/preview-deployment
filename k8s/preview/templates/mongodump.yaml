@@ -3,6 +3,7 @@ kind: CronJob
 metadata:
   name: {{ .Release.Name }}-mongodb-backup
 spec:
+  suspend: true
   schedule: "0 0 1 * *"
   successfulJobsHistoryLimit: 0
   jobTemplate:
