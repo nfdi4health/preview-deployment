@@ -1,5 +1,5 @@
 apiVersion: v2
-name: preview
+name: preview-simple-pipeline
 description: A Helm chart to deploy preview.
 
 # A chart can be either an 'application' or a 'library' chart.
