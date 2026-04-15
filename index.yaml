@@ -3,6 +3,16 @@ entries:
   preview:
   - apiVersion: v2
     appVersion: 1.0.0
+    created: "2026-04-15T14:51:13.925524283Z"
+    description: A Helm chart to deploy preview.
+    digest: 85c6b45517d323857f9f027c2b39c93e27514069a8ec12291549b7262071b81f
+    name: preview
+    type: application
+    urls:
+    - https://github.com/nfdi4health/preview-deployment/releases/download/preview-0.2.1/preview-0.2.1.tgz
+    version: 0.2.1
+  - apiVersion: v2
+    appVersion: 1.0.0
     created: "2026-04-15T14:44:24.677205326Z"
     description: A Helm chart to deploy preview.
     digest: 66956ccf126ec6b63a6c49f22c3a8bbba28e5b80d1411729313b2ea153542ca4
@@ -251,4 +261,15 @@ entries:
     urls:
     - https://github.com/nfdi4health/preview-deployment/releases/download/preview-0.0.1/preview-0.0.1.tgz
     version: 0.0.1
-generated: "2026-04-15T14:44:24.677426597Z"
+  preview-simple-pipeline:
+  - apiVersion: v2
+    appVersion: 1.0.0
+    created: "2026-04-15T14:51:14.158148268Z"
+    description: A Helm chart to deploy preview.
+    digest: 3bcc53ea6bb37e9e9dc1c5f1ef7478228039b48bdf55eae3d0bc6057b9fc56e6
+    name: preview-simple-pipeline
+    type: application
+    urls:
+    - https://github.com/nfdi4health/preview-deployment/releases/download/preview-simple-pipeline-0.0.1/preview-simple-pipeline-0.0.1.tgz
+    version: 0.0.1
+generated: "2026-04-15T14:51:14.158382394Z"
