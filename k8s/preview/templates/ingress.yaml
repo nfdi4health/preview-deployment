@@ -30,4 +30,11 @@ spec:
               name: {{ .Release.Name }}-frontend
               port:
                 number: 80
+        - path: /api
+          pathType: Prefix
+          backend:
+            service:
+              name: {{ .Release.Name }}-backend
+              port:
+                number: 5000
 {{- end }}
