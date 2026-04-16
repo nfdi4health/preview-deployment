@@ -41,7 +41,7 @@ spec:
                 file=/app/final.jsonl
 
                 echo "Downloading input file from S3"
-                s3cmd get "s3://${S3_BUCKET}/final-test.jsonl" "$file" \
+                s3cmd get "s3://${S3_BUCKET}/final.jsonl" "$file" \
                 --host="${S3_HOST}" \
                 --access_key="${S3_KEYID}" \
                 --secret_key="${S3_KEY}" \
@@ -69,7 +69,7 @@ spec:
                 if [ -e "$file" ]; then
                   echo "File exists"
                   echo "Uploading to S3"
-                  s3cmd put "$file" "s3://${S3_BUCKET}/final-test.jsonl" \
+                  s3cmd put "$file" "s3://${S3_BUCKET}/final.jsonl" \
                   --host="${S3_HOST}" \
                   --access_key="${S3_KEYID}" \
                   --secret_key="${S3_KEY}" \
